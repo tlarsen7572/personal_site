@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:personal_site/follow_page.dart';
 import 'package:personal_site/goalteryx_page.dart';
 import 'package:personal_site/constants.dart';
 import 'package:personal_site/home_page.dart';
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case "/":
             return PageTransition<Widget>(
+              settings: RouteSettings(name: '/'),
                 type: PageTransitionType.fade,
                 child: StandardPage(
                   page: SelectedPage.Home,
@@ -31,15 +34,29 @@ class MyApp extends StatelessWidget {
             );
           case "/goalteryx":
             return PageTransition<Widget>(
-                type: PageTransitionType.fade,
-                child: StandardPage(
-                  page: SelectedPage.GoAlteryx,
-                  bannerText: "goalteryx",
-                  bannerImage: Container(
-                    color: Colors.blueGrey,
-                  ),
-                  content: GoAlteryxPage(),
+              settings: RouteSettings(name: '/goalteryx'),
+              type: PageTransitionType.fade,
+              child: StandardPage(
+                page: SelectedPage.GoAlteryx,
+                bannerText: "goalteryx",
+                bannerImage: Container(
+                  color: Colors.blueGrey,
                 ),
+                content: GoAlteryxPage(),
+              ),
+            );
+          case "/follow":
+            return PageTransition<Widget>(
+              settings: RouteSettings(name: '/follow'),
+              type: PageTransitionType.fade,
+              child: StandardPage(
+                page: SelectedPage.Follow,
+                bannerText: "Follow me",
+                bannerImage: Container(
+                  color: Colors.blueGrey,
+                ),
+                content: FollowPage(),
+              ),
             );
           default:
             return null;
@@ -100,6 +117,7 @@ class StandardPage extends StatelessWidget {
       color: backgroundColor,
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             StandardPageHeader(
               child: StandardBanner(
@@ -108,7 +126,13 @@ class StandardPage extends StatelessWidget {
               ),
             ),
             NavButtons(selectedPage: page),
-            this.content,
+            Center(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: maxPageWidth),
+                padding: EdgeInsets.all(20),
+                child: this.content,
+              ),
+            ),
           ],
         ),
       ),
@@ -148,27 +172,44 @@ class NavButtons extends StatelessWidget {
   final SelectedPage selectedPage;
 
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        FlatButton(
-          child: Column(
+    return Container(
+      color: Colors.black12,
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: maxPageWidth),
+          child: Wrap(
             children: [
-              Text("Home"),
-              SelectedPageIndicator(selectedPage == SelectedPage.Home),
+              FlatButton(
+                child: Column(
+                  children: [
+                    Text("Home"),
+                    SelectedPageIndicator(selectedPage == SelectedPage.Home),
+                  ],
+                ),
+                onPressed: ()=>Navigator.of(context).pushNamed("/"),
+              ),
+              FlatButton(
+                child: Column(
+                  children: [
+                    Text("goalteryx"),
+                    SelectedPageIndicator(selectedPage == SelectedPage.GoAlteryx),
+                  ],
+                ),
+                onPressed: ()=>Navigator.of(context).pushNamed("/goalteryx"),
+              ),
+              FlatButton(
+                child: Column(
+                  children: [
+                    Text("Follow"),
+                    SelectedPageIndicator(selectedPage == SelectedPage.Follow),
+                  ],
+                ),
+                onPressed: ()=>Navigator.of(context).pushNamed("/follow"),
+              ),
             ],
           ),
-          onPressed: ()=>Navigator.of(context).pushNamed("/"),
         ),
-        FlatButton(
-          child: Column(
-            children: [
-              Text("goalteryx"),
-              SelectedPageIndicator(selectedPage == SelectedPage.GoAlteryx),
-            ],
-          ),
-          onPressed: ()=>Navigator.of(context).pushNamed("/goalteryx"),
-        ),
-      ],
+      ),
     );
   }
 }

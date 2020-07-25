@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 enum SelectedPage {
   Home,
   GoAlteryx,
+  Follow,
 }
 
 const headerBanner = "HeaderBanner";
