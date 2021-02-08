@@ -19,7 +19,7 @@ class GoAlteryxPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TwoColumnContent(
-          Image.asset("images/goalteryx_icon.png", height: 300),
+          Image.asset("images/goalteryx_icon.png", width: 300),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
