@@ -11,7 +11,7 @@ This site is meant to provide a human element to my public-facing projects and a
 class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return TwoColumnContent(
-      Image.asset("Tom.jpeg"),
+      Image.asset("images/Tom.jpeg"),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
