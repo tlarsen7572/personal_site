@@ -7,5 +7,5 @@ enum SelectedPage {
 }
 
 const headerBanner = "HeaderBanner";
-const backgroundColor = Color.fromARGB(255, 200, 200, 200);
+const backgroundColor = Colors.white;
 const maxPageWidth = 1040.0;

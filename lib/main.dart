@@ -14,9 +14,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tom Larsen',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case "/":
@@ -26,9 +23,7 @@ class MyApp extends StatelessWidget {
                 child: StandardPage(
                   page: SelectedPage.Home,
                   bannerText: "Data analyst and Alteryx toolmaker",
-                  bannerImage: Container(
-                    color: Colors.blueGrey,
-                  ),
+                  bannerImage: Image.asset('Tom.jpeg', alignment: Alignment.centerLeft),
                   content: HomePage(),
                 ),
             );
@@ -39,9 +34,7 @@ class MyApp extends StatelessWidget {
               child: StandardPage(
                 page: SelectedPage.GoAlteryx,
                 bannerText: "goalteryx",
-                bannerImage: Container(
-                  color: Colors.blueGrey,
-                ),
+                bannerImage: Image.asset('goalteryx_icon.png', alignment: Alignment.centerLeft),
                 content: GoAlteryxPage(),
               ),
             );
@@ -53,7 +46,7 @@ class MyApp extends StatelessWidget {
                 page: SelectedPage.Follow,
                 bannerText: "Follow me",
                 bannerImage: Container(
-                  color: Colors.blueGrey,
+                  color: Colors.black,
                 ),
                 content: FollowPage(),
               ),
@@ -81,30 +74,6 @@ class PageWidthLayout extends StatelessWidget {
   }
 }
 
-class StandardBanner extends StatelessWidget {
-  StandardBanner({this.text, this.image});
-  final String text;
-  final Widget image;
-
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Text(
-            text,
-            style: TextStyle(fontSize: 24, color: backgroundColor),
-          ),
-        ),
-        Expanded(
-          flex: 2,
-          child: image,
-        ),
-      ],
-    );
-  }
-}
-
 class StandardPage extends StatelessWidget {
   StandardPage({this.page, this.bannerText, this.bannerImage, this.content});
   final SelectedPage page;
@@ -119,13 +88,8 @@ class StandardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            StandardPageHeader(
-              child: StandardBanner(
-                text: bannerText,
-                image: bannerImage,
-              ),
-            ),
             NavButtons(selectedPage: page),
+            Container(height: 100),
             Center(
               child: Container(
                 constraints: BoxConstraints(maxWidth: maxPageWidth),
@@ -140,71 +104,56 @@ class StandardPage extends StatelessWidget {
   }
 }
 
-class StandardPageHeader extends StatelessWidget {
-  StandardPageHeader({this.child});
-  final Widget child;
-
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          color: Colors.black,
-          height: 300,
-          child: PageWidthLayout(child: this.child),
-        ),
-        Container(
-          height: 1,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.black, backgroundColor],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
-
 class NavButtons extends StatelessWidget {
   NavButtons({this.selectedPage});
   final SelectedPage selectedPage;
 
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black12,
       child: Center(
         child: Container(
           constraints: BoxConstraints(maxWidth: maxPageWidth),
-          child: Wrap(
+          child: Row(
             children: [
-              FlatButton(
-                child: Column(
-                  children: [
-                    Text("Home"),
-                    SelectedPageIndicator(selectedPage == SelectedPage.Home),
-                  ],
+              Text("tlarsendataguy", textAlign: TextAlign.start, style: TextStyle(fontSize: 24, fontStyle: FontStyle.italic)),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Wrap(
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(primary: Colors.black, textStyle: TextStyle(fontSize: 18)),
+                        child: Column(
+                          children: [
+                            Container(height: 40, width: 100, child: Align(child: Text("Home"), alignment: Alignment.center)),
+                            SelectedPageIndicator(selectedPage == SelectedPage.Home),
+                          ],
+                        ),
+                        onPressed: ()=>Navigator.of(context).pushNamed("/"),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(primary: Colors.black, textStyle: TextStyle(fontSize: 18)),
+                        child: Column(
+                          children: [
+                            Container(height: 40, width: 100, child: Align(child: Text("goalteryx"), alignment: Alignment.center)),
+                            SelectedPageIndicator(selectedPage == SelectedPage.GoAlteryx),
+                          ],
+                        ),
+                        onPressed: ()=>Navigator.of(context).pushNamed("/goalteryx"),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(primary: Colors.black, textStyle: TextStyle(fontSize: 18)),
+                        child: Column(
+                          children: [
+                            Container(height: 40, width: 100, child: Align(child: Text("Follow"), alignment: Alignment.center)),
+                            SelectedPageIndicator(selectedPage == SelectedPage.Follow),
+                          ],
+                        ),
+                        onPressed: ()=>Navigator.of(context).pushNamed("/follow"),
+                      ),
+                    ],
+                  ),
                 ),
-                onPressed: ()=>Navigator.of(context).pushNamed("/"),
-              ),
-              FlatButton(
-                child: Column(
-                  children: [
-                    Text("goalteryx"),
-                    SelectedPageIndicator(selectedPage == SelectedPage.GoAlteryx),
-                  ],
-                ),
-                onPressed: ()=>Navigator.of(context).pushNamed("/goalteryx"),
-              ),
-              FlatButton(
-                child: Column(
-                  children: [
-                    Text("Follow"),
-                    SelectedPageIndicator(selectedPage == SelectedPage.Follow),
-                  ],
-                ),
-                onPressed: ()=>Navigator.of(context).pushNamed("/follow"),
               ),
             ],
           ),
@@ -221,7 +170,7 @@ class SelectedPageIndicator extends StatelessWidget {
     var widget = Container(
       height: 5,
       width: 80,
-      color: selected ? Colors.blue : null,
+      color: selected ? Colors.indigo : null,
     );
     if (selected) {
       return Hero(
